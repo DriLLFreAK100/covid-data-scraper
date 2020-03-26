@@ -441,6 +441,11 @@ function writeResultToJson(result) {
         return acc;
     }, {})
 
+    //Sort all date
+    for(var country in saveData.data){
+        saveData.data[country] = saveData.data[country].sort((a, b) => { return (a.year.toString() + a.month + a.day) - (b.year.toString() + b.month + b.day)})
+    }
+
     fs.writeFileSync(saveDir + filename + '.json', JSON.stringify(saveData));
 }
 
