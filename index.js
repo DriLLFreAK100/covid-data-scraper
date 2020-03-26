@@ -76,7 +76,8 @@ const malaysiaRecoveredStat = {
     "3.22": 25,
     "3.23": 20,
     "3.24": 24,
-    "3.25": 16
+    "3.25": 16,
+    "3.26": 16
 }
 
 var wmInputList = [];
@@ -320,7 +321,7 @@ function scrapeAvailableCountryData(inputs) {
 
                                 let data = JSON5.parse(textData);
 
-                                countryResult.totalCases = toDateStat(data.xAxis.categories, data.series[0].data)
+                                countryResult.totalCases = toDateStatCumulative(data.xAxis.categories, data.series[0].data)
                             }
                             else if (script.firstChild.data.indexOf('Total Coronavirus Deaths') != -1) {
 
@@ -331,7 +332,7 @@ function scrapeAvailableCountryData(inputs) {
 
                                 let data = JSON5.parse(textData);
 
-                                countryResult.totalDeaths = toDateStat(data.xAxis.categories, data.series[0].data)
+                                countryResult.totalDeaths = toDateStatCumulative(data.xAxis.categories, data.series[0].data)
                             }
 
                             else if (script.firstChild.data.indexOf('New Recoveries') != -1) {
@@ -342,7 +343,7 @@ function scrapeAvailableCountryData(inputs) {
 
                                 let data = JSON5.parse(textData);
 
-                                countryResult.totalRecovered = toDateStat(data.xAxis.categories, data.series.filter(x => x.name === 'New Recoveries')[0].data)
+                                countryResult.totalRecovered = toDateStatDaily(data.xAxis.categories, data.series.filter(x => x.name === 'New Recoveries')[0].data)
                             }
                         }
 
@@ -405,7 +406,7 @@ function scrapeAvailableCountryData(inputs) {
     })
 }
 
-function toDateStat(dateList, quantityList) {
+function toDateStatCumulative(dateList, quantityList) {
 
     if (dateList.length !== quantityList.length)
         throw Error();
@@ -413,6 +414,18 @@ function toDateStat(dateList, quantityList) {
     let dateStat = dateList.reduce((acc, current, index) => {
         return index > 0 ? [...acc, { date: current, quantity: quantityList[index] - quantityList[index - 1] }] :
             [...acc, { date: current, quantity: quantityList[index] }]
+    }, [])
+
+    return dateStat;
+}
+
+function toDateStatDaily(dateList, quantityList) {
+
+    if (dateList.length !== quantityList.length)
+        throw Error();
+
+    let dateStat = dateList.reduce((acc, current, index) => {
+        return [...acc, { date: current, quantity: quantityList[index] }]
     }, [])
 
     return dateStat;
