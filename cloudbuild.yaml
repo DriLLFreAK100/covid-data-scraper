@@ -4,6 +4,7 @@ steps:
   - functions
   - deploy
   - covid-data-scraper
+  - --region=asia-east2
   - --runtime=nodejs8
   - --source=.
   - --trigger-topic=run-covid-data-scraper
