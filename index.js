@@ -90,7 +90,8 @@ var ecdcExcelData = [];
 var retryCount = 0;
 
 exports.execScrapeFunc = async () => { await startScrapeWmSite() }
-//startScrapeWmSite()
+//startScrapeWmSite() 
+
 
 async function cleanupTempFiles() {
     let wmLatestExcel = saveDir + filename + '.xlsx';
