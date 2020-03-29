@@ -20,14 +20,14 @@ const gcpBucketName = 'covid-excel';
 
 const wmSite = 'https://www.worldometers.info/coronavirus/';
 const excelHeaderKvp = [
-    { key: "date", header: "DateRep" },
-    { key: "day", header: "Day", },
-    { key: "month", header: "Month" },
-    { key: "year", header: "Year" },
-    { key: "cases", header: "Cases" },
-    { key: "deaths", header: "Deaths" },
-    { key: "recovered", header: "Recovered" },
-    { key: "country", header: "Countries and territories" }
+    { key: "date", header: "dateRep" },
+    { key: "day", header: "day", },
+    { key: "month", header: "month" },
+    { key: "year", header: "year" },
+    { key: "cases", header: "cases" },
+    { key: "deaths", header: "deaths" },
+    { key: "recovered", header: "recovered" },
+    { key: "country", header: "countriesAndTerritories" }
 ]
 
 const sourceCountryNameDict = {
@@ -77,7 +77,10 @@ const malaysiaRecoveredStat = {
     "3.23": 20,
     "3.24": 24,
     "3.25": 16,
-    "3.26": 16
+    "3.26": 16,
+    "3.27": 44,
+    "3.28": 61,
+    "3.29": 68
 }
 
 var wmInputList = [];
@@ -135,7 +138,7 @@ async function uploadFile(bucketName, saveDatas) {
             destination: 'covid-latest' + '.' + saveData.ext,
             gzip: true,
             metadata: {
-                cacheControl: 'public, max-age=31536000',
+                cacheControl: 'public, max-age=3600',
             },
         });
     
@@ -145,7 +148,7 @@ async function uploadFile(bucketName, saveDatas) {
             destination: 'History/' + saveData.fileName,
             gzip: true,
             metadata: {
-                cacheControl: 'public, max-age=31536000',
+                cacheControl: 'public, max-age=3600',
             },
         });
     
@@ -169,7 +172,7 @@ async function mergeWmEcdcResult() {
                 else {
                     let rowData = row.values.splice(1);
                     let mappedData = headers.reduce((acc, current, i) => {
-                        let keyObj = excelHeaderKvp.filter(x => x.header == current)[0];
+                        let keyObj = excelHeaderKvp.filter(x => x.header.toLowerCase() == current.toLowerCase())[0];
 
                         return keyObj ? { ...acc, ... { [keyObj.key]: rowData[i] } } : acc;
                     }, {})
