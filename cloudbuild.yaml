@@ -1,4 +1,5 @@
- name: 'gcr.io/cloud-builders/gcloud'
- args:['functions','deploy','runtime=nodejs8','trigger-topic=run-covid-data-scraper''source=./''entry-point=execScrapeFunc','execScrapeFunc']
- waitFor: ['_']
- id: 'deploying-covid-scraper-function'
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:['functions','deploy','runtime=nodejs8','trigger-topic=run-covid-data-scraper''source=./''entry-point=execScrapeFunc','execScrapeFunc']
+  waitFor: ['_']
+  id: 'deploying-covid-scraper-function'
