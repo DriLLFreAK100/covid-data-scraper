@@ -459,8 +459,12 @@ function writeResultToJson(result) {
     }, {})
 
     //Sort all date
-    for(var country in saveData.data){
-        saveData.data[country] = saveData.data[country].sort((a, b) => { return (a.year.toString() + a.month + a.day) - (b.year.toString() + b.month + b.day)})
+    for (var country in saveData.data) {
+        saveData.data[country] = saveData.data[country].sort((a, b) => { 
+            let first = (a.year.toString() + a.month.toString().padStart(2, '0') + a.day.toString().padStart(2, '0'))
+            let second = (b.year.toString() + b.month.toString().padStart(2, '0') + b.day.toString().padStart(2, '0'))
+            return first - second
+        })
     }
 
     fs.writeFileSync(saveDir + filename + '.json', JSON.stringify(saveData));
