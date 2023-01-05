@@ -7,7 +7,7 @@
         "@google-cloud/storage": "^4.6.0",
         "cheerio": "^1.0.0-rc.3",
         "exceljs": "^3.8.1",
-        "json5": "^2.1.2",
+        "json5": "^2.2.2",
         "request": "^2.88.2",
         "table-scraper": "^0.1.0"
     }
